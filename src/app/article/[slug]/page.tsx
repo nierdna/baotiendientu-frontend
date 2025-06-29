@@ -9,9 +9,9 @@ import parse from 'html-react-parser';
 import { formatViews, formatLikes } from '@/utils/formatNumber';
 
 interface ArticlePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 interface Article {
@@ -306,7 +306,8 @@ async function getRelatedArticles(slug: string, categoryId: string): Promise<Art
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  const article = await getArticle(params.slug);
+  const { slug } = await params;
+  const article = await getArticle(slug);
 
   if (!article) {
     return {
@@ -352,13 +353,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const article = await getArticle(params.slug);
+  const { slug } = await params;
+  const article = await getArticle(slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = await getRelatedArticles(params.slug, article.category.slug);
+  const relatedArticles = await getRelatedArticles(slug, article.category.slug);
 
   // JSON-LD structured data
   const jsonLd = {
