@@ -1,4 +1,4 @@
-# Báo Tiền Điện Tử - Crypto News Website
+# Tạp Chí Bitcoin - Crypto News Website
 
 Trang web tin tức tiền điện tử SEO-friendly được xây dựng bằng Next.js 14 với App Router, TypeScript, Tailwind CSS và MongoDB.
 
@@ -51,7 +51,7 @@ MONGODB_URI=mongodb://localhost:27017/baotiendientu
 
 # Site configuration
 SITE_URL=http://localhost:3000
-SITE_NAME="Báo Tiền Điện Tử"
+SITE_NAME="Tạp Chí Bitcoin"
 SITE_DESCRIPTION="Tin tức và phân tích về tiền điện tử, blockchain và công nghệ tài chính"
 
 # NextAuth (optional)

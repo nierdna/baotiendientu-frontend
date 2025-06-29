@@ -3,11 +3,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #EF4444;
+  --secondary: #FEAF22;
+  --accent: #3B82F6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 }
@@ -23,4 +29,225 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Custom utilities for text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Smooth animations */
+* {
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, 
+              transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hover-glow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.hover-glow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  filter: brightness(1.05);
+}
+
+/* Image hover effects */
+.image-scale {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-scale:hover {
+  transform: scale(1.1);
+}
+
+/* Text hover effects */
+.text-hover {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.text-hover:hover {
+  transform: translateX(2px);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Infinite Horizontal Scroll Animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll-left 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Crypto ticker container */
+.crypto-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.crypto-ticker::before,
+.crypto-ticker::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.crypto-ticker::before {
+  left: 0;
+  background: linear-gradient(to right, rgb(249, 250, 251), transparent);
+}
+
+.crypto-ticker::after {
+  right: 0;
+  background: linear-gradient(to left, rgb(249, 250, 251), transparent);
+}
+
+/* Banner Slider Animation */
+@keyframes slide-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide-infinite {
+  animation: slide-infinite 60s linear infinite;
+}
+
+.animate-slide-infinite:hover {
+  animation-play-state: paused;
+}
+
+/* Banner slider container */
+.banner-slider {
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-slider::before,
+.banner-slider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.banner-slider::before {
+  left: 0;
+  background: linear-gradient(to right, rgb(255, 255, 255), transparent);
+}
+
+.banner-slider::after {
+  right: 0;
+  background: linear-gradient(to left, rgb(255, 255, 255), transparent);
+}
+
+/* E-magazine Cover Effects */
+.magazine-cover {
+  position: relative;
+  overflow: hidden;
+}
+
+.magazine-cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.1) 0%, 
+    transparent 50%, 
+    rgba(255,255,255,0.05) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.magazine-cover:hover::before {
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.2) 0%, 
+    transparent 50%, 
+    rgba(255,255,255,0.1) 100%);
+}
+
+/* Magazine text shadow for better readability */
+.magazine-title {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.magazine-subtitle {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }

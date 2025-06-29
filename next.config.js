@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['localhost', 'res.cloudinary.com'],
+    domains: ['localhost', 'res.cloudinary.com', 'images.unsplash.com'],
     formats: ['image/webp', 'image/avif'],
   },
   async rewrites() {

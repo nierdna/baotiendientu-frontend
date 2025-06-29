@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { Search, Menu, Facebook, Twitter, Youtube } from "lucide-react";
+import Image from "next/image";
+import { Menu, ChevronDown, User, Facebook, Twitter, Youtube, Instagram } from "lucide-react";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -18,14 +19,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Báo Tiền Điện Tử - Tin tức Cryptocurrency hàng đầu Việt Nam",
-    template: "%s | Báo Tiền Điện Tử"
+    default: "Tạp Chí Bitcoin - Tin tức Cryptocurrency hàng đầu Việt Nam",
+    template: "%s | Tạp Chí Bitcoin"
   },
   description: "Cập nhật tin tức mới nhất về tiền điện tử, Bitcoin, Ethereum, blockchain và công nghệ tài chính. Phân tích chuyên sâu từ các chuyên gia hàng đầu.",
   keywords: ['tiền điện tử', 'cryptocurrency', 'bitcoin', 'ethereum', 'blockchain', 'tin tức crypto', 'phân tích thị trường'],
-  authors: [{ name: 'Báo Tiền Điện Tử' }],
-  creator: 'Báo Tiền Điện Tử',
-  publisher: 'Báo Tiền Điện Tử',
+  authors: [{ name: 'Tạp Chí Bitcoin' }],
+  creator: 'Tạp Chí Bitcoin',
+  publisher: 'Tạp Chí Bitcoin',
   formatDetection: {
     email: false,
     address: false,
@@ -36,16 +37,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Báo Tiền Điện Tử - Tin tức Cryptocurrency hàng đầu Việt Nam',
+    title: 'Tạp Chí Bitcoin - Tin tức Cryptocurrency hàng đầu Việt Nam',
     description: 'Nguồn tin tức tiền điện tử uy tín với các bài phân tích chuyên sâu về Bitcoin, Ethereum và thị trường crypto.',
     url: process.env.SITE_URL || 'http://localhost:3000',
-    siteName: 'Báo Tiền Điện Tử',
+    siteName: 'Tạp Chí Bitcoin',
     locale: 'vi_VN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Báo Tiền Điện Tử - Tin tức Cryptocurrency',
+    title: 'Tạp Chí Bitcoin - Tin tức Cryptocurrency',
     description: 'Cập nhật tin tức mới nhất về tiền điện tử và blockchain.',
     creator: '@baotiendientu',
   },
@@ -72,7 +73,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-gray-50`}>
         <Header />
         <main>{children}</main>
         <Footer />
@@ -83,151 +84,282 @@ export default function RootLayout({
 
 function Header() {
   const navigation = [
-    { name: 'Trang chủ', href: '/' },
-    { name: 'Bitcoin', href: '/category/bitcoin' },
-    { name: 'Ethereum', href: '/category/ethereum' },
-    { name: 'Altcoin', href: '/category/altcoin' },
-    { name: 'DeFi', href: '/category/defi' },
-    { name: 'NFT', href: '/category/nft' },
-    { name: 'Phân tích', href: '/category/analysis' },
+    { 
+      name: 'Tin tức', 
+      href: '/news',
+      submenu: [
+        { name: 'Big Cap', href: '/category/big-cap' },
+        { name: 'DeFi', href: '/category/defi' },
+        { name: 'NFT & GameFi', href: '/category/nft-gamefi' },
+        { name: 'Pháp lý', href: '/category/phap-ly' },
+        { name: 'Tin tổng hợp', href: '/category/tin-tong-hop' },
+      ]
+    },
+    { name: 'Báo cáo', href: '/reports' },
+    { name: 'Sự kiện', href: '/events' },
+    { name: 'Nổi bật', href: '/featured' },
+    { name: 'Bitcoin TV', href: '/tv' },
+    { name: 'E-Magazine', href: '/magazine' },
+    { name: 'Góc nhìn', href: '/perspective' },
   ];
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50">
-      {/* Top bar */}
-      <div className="bg-gray-800 text-white">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-4">
-              <span>🔥 Tin nóng: Bitcoin vượt $50,000</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/about" className="hover:text-gray-300">Giới thiệu</Link>
-              <Link href="/contact" className="hover:text-gray-300">Liên hệ</Link>
-            </div>
+    <header className="bg-white shadow-sm sticky top-0 z-50 py-2">
+      {/* Main header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/tap-chi-bitcoin-logo.png"
+              alt="Tạp Chí Bitcoin"
+              width={180}
+              height={80}
+              className="h-16 w-auto"
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {navigation.map((item) => (
+              <div key={item.name} className="relative group">
+                <Link
+                  href={item.href}
+                  className="flex items-center text-primary hover:text-primary/70 font-medium transition-colors py-2"
+                >
+                  {item.name}
+                  {item.submenu && <ChevronDown className="w-4 h-4 ml-1" />}
+                </Link>
+
+                {/* Dropdown menu */}
+                {item.submenu && (
+                  <div className="absolute left-0 mt-0 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                    <div className="py-2">
+                      {item.submenu.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          href={subItem.href}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-700/70 hover:bg-gray-100"
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          {/* Right side */}
+          <div className="flex items-center space-x-4">
+            {/* Search */}
+            {/* <div className="hidden lg:block relative">
+              <input
+                type="text"
+                placeholder="Tìm kiếm..."
+                className="w-64 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              />
+              <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
+            </div> */}
+
+            {/* Login */}
+            <Link
+              href="/login"
+              className="flex items-center space-x-1 text-primary hover:text-primary/70 font-medium"
+            >
+              <User className="w-5 h-5" />
+              <span>Đăng nhập</span>
+            </Link>
+
+            {/* Mobile menu button */}
+            <button className="md:hidden">
+              <Menu className="w-6 h-6 text-gray-700" />
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Main header */}
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-2 rounded-lg font-bold text-xl">
-              BTC
-            </div>
-            <div className="hidden md:block">
-              <h1 className="text-xl font-bold text-gray-900">Báo Tiền Điện Tử</h1>
-              <p className="text-sm text-gray-600">Crypto News Vietnam</p>
-            </div>
-          </Link>
-
-          {/* Search */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Tìm kiếm tin tức..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
-            </div>
-          </div>
-
-          {/* Mobile menu button */}
-          <button className="md:hidden">
-            <Menu className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Navigation */}
-        <nav className="hidden md:block border-t border-gray-200">
-          <div className="flex space-x-8 py-4">
-            {navigation.map((item) => (
+      {/* Mobile menu */}
+      <div className="md:hidden">
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+          {navigation.map((item) => (
+            <div key={item.name}>
               <Link
-                key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-500"
               >
                 {item.name}
               </Link>
-            ))}
-          </div>
-        </nav>
+              {item.submenu && (
+                <div className="pl-6 space-y-1">
+                  {item.submenu.map((subItem) => (
+                    <Link
+                      key={subItem.name}
+                      href={subItem.href}
+                      className="block px-3 py-2 text-sm text-gray-600 hover:text-red-500"
+                    >
+                      {subItem.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </header>
   );
 }
 
 function Footer() {
-  const footerLinks = {
-    'Danh mục': [
-      { name: 'Bitcoin', href: '/category/bitcoin' },
-      { name: 'Ethereum', href: '/category/ethereum' },
-      { name: 'Altcoin', href: '/category/altcoin' },
-      { name: 'DeFi', href: '/category/defi' },
-    ],
-    'Công ty': [
-      { name: 'Giới thiệu', href: '/about' },
-      { name: 'Liên hệ', href: '/contact' },
-      { name: 'Tuyển dụng', href: '/careers' },
-      { name: 'Quảng cáo', href: '/advertise' },
-    ],
-    'Pháp lý': [
-      { name: 'Chính sách bảo mật', href: '/privacy' },
-      { name: 'Điều khoản sử dụng', href: '/terms' },
-      { name: 'Quy chế hoạt động', href: '/regulations' },
-    ],
-  };
-
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
-          {/* About */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-2 rounded-lg font-bold text-xl">
-                BTC
-              </div>
-              <span className="text-xl font-bold">Báo Tiền Điện Tử</span>
+    <footer className="bg-[#180d18] text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Logo và mô tả */}
+          <div className="md:col-span-2">
+            <div className="flex items-center mb-4">
+              <Image
+                src="/tap-chi-bitcoin-logo.png"
+                alt="Tạp Chí Bitcoin"
+                width={160}
+                height={64}
+                className="h-12 w-auto"
+              />
             </div>
-            <p className="text-gray-300 mb-4">
-              Nguồn tin tức tiền điện tử uy tín và cập nhật nhất tại Việt Nam. Cung cấp thông tin phân tích chuyên sâu về thị trường crypto.
+            <p className="text-gray-300 mb-6 max-w-md">
+              Nguồn tin tức tiền điện tử uy tín và cập nhật nhất tại Việt Nam.
+              Cung cấp thông tin phân tích chuyên sâu về thị trường crypto.
             </p>
-            <div className="flex space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Facebook className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Twitter className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Youtube className="w-5 h-5" />
-              </Link>
+
+            {/* Social Media */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">
+                Kết nối với chúng tôi
+              </h4>
+              <div className="flex space-x-4">
+                <Link
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Facebook className="w-6 h-6" />
+                </Link>
+                <Link
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Twitter className="w-6 h-6" />
+                </Link>
+                <Link
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Youtube className="w-6 h-6" />
+                </Link>
+                <Link
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Instagram className="w-6 h-6" />
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h3 className="font-semibold mb-4">{title}</h3>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link.name}>
-                    <Link href={link.href} className="text-gray-300 hover:text-white transition-colors">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Danh mục */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Danh mục</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/category/bitcoin"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Bitcoin
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/category/ethereum"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Ethereum
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/category/defi"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  DeFi
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/category/nft-gamefi"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  NFT & GameFi
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/category/phap-ly"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Pháp lý
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Thông tin */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Thông tin</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/about"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Giới thiệu
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Liên hệ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Chính sách bảo mật
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Điều khoản sử dụng
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Báo Tiền Điện Tử. Tất cả quyền được bảo lưu.</p>
+        {/* Copyright */}
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
+          <p className="text-gray-400">
+            © {new Date().getFullYear()} Tạp Chí Bitcoin. Tất cả quyền được bảo
+            lưu.
+          </p>
         </div>
       </div>
     </footer>
