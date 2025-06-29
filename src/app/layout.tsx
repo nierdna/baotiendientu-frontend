@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, ChevronDown, User, Facebook, Twitter, Youtube, Instagram, MessageCircleMore, Send } from "lucide-react";
+import { Menu, ChevronDown, User, Twitter, Send } from "lucide-react";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
