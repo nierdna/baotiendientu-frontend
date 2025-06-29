@@ -3,7 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, ChevronDown, User, Facebook, Twitter, Youtube, Instagram } from "lucide-react";
+import { Menu, ChevronDown, User, Facebook, Twitter, Youtube, Instagram, MessageCircleMore, Send } from "lucide-react";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -240,18 +240,26 @@ function Footer() {
               </h4>
               <div className="flex space-x-4">
                 <Link
+                  target="_blank"
+                  href="https://t.me/henry0xx"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Send className="w-6 h-6" />
+                </Link>
+                {/* <Link
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Facebook className="w-6 h-6" />
-                </Link>
+                </Link> */}
                 <Link
-                  href="#"
+                  target="_blank"
+                  href="https://x.com/henry0xx"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Twitter className="w-6 h-6" />
                 </Link>
-                <Link
+                {/* <Link
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
@@ -262,7 +270,7 @@ function Footer() {
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Instagram className="w-6 h-6" />
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
