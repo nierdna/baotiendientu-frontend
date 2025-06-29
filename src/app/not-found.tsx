@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Search } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
