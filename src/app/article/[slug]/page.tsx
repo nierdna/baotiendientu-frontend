@@ -6,6 +6,7 @@ import { Clock, Eye, Share2, Heart, Calendar, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import parse from 'html-react-parser';
+import { formatViews, formatLikes } from '@/utils/formatNumber';
 
 interface ArticlePageProps {
   params: {
@@ -151,6 +152,99 @@ const mockArticleDetails: { [key: string]: Article } = {
     }
   }
 };
+
+// Mock data cho sidebar "Tin xem nhiều"
+const mockPopularArticles = [
+  {
+    _id: '301',
+    title: 'World Liberty Financial chuẩn bị mở giao dịch cho token WLFI',
+    slug: 'world-liberty-financial-chuan-bi-mo-giao-dich-token-wlfi',
+    featuredImage: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=80&h=60&fit=crop',
+    views: 12500
+  },
+  {
+    _id: '302', 
+    title: 'zkLend tuyên bố ngừng hoạt động sau vụ hack 9.6 triệu USD',
+    slug: 'zklend-tuyen-bo-ngung-hoat-dong-sau-vu-hack-96-trieu-usd',
+    featuredImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=80&h=60&fit=crop',
+    views: 8900
+  },
+  {
+    _id: '303',
+    title: 'Mastercard bắt tay với Chainlink, cho phép ngân hàng mua crypto trực tiếp',
+    slug: 'mastercard-bat-tay-voi-chainlink-cho-phep-ngan-hang-mua-crypto',
+    featuredImage: 'https://images.unsplash.com/photo-1559526324-593bc073d938?w=80&h=60&fit=crop',
+    views: 7300
+  },
+  {
+    _id: '304',
+    title: 'Gate Alpha tung chiến dịch airdrop 20 ngày cho người dùng',
+    slug: 'gate-alpha-tung-chien-dich-airdrop-20-ngay-cho-nguoi-dung',
+    featuredImage: 'https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=80&h=60&fit=crop',
+    views: 6100
+  },
+  {
+    _id: '305',
+    title: 'Phố Wall đặt cược 100 triệu USD vào BNB, thử nghiệm mô hình dự trữ mới',
+    slug: 'pho-wall-dat-cuoc-100-trieu-usd-vao-bnb',
+    featuredImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=80&h=60&fit=crop',
+    views: 5800
+  },
+  {
+    _id: '306',
+    title: 'Trump nói Iran và Israel đạt thỏa thuận ngừng bắn, thị trường crypto phục hồi',
+    slug: 'trump-noi-iran-va-israel-dat-thoa-thuan-ngung-ban',
+    featuredImage: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=80&h=60&fit=crop',
+    views: 9200
+  },
+  {
+    _id: '307',
+    title: 'Mỹ tham chiến xung đột Iran - Israel, Bitcoin "thủng mốc" 100.000 USD',
+    slug: 'my-tham-chien-xung-dot-iran-israel-bitcoin-thung-moc-100000-usd',
+    featuredImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=80&h=60&fit=crop',
+    views: 11400
+  }
+];
+
+// Mock data cho "Thư viện"
+const mockLibraryArticles = [
+  {
+    _id: '401',
+    title: 'Solana ETF là gì? Những điều bạn cần biết về Solana ETF',
+    slug: 'solana-etf-la-gi-nhung-dieu-ban-can-biet',
+    featuredImage: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=80&h=60&fit=crop'
+  },
+  {
+    _id: '402',
+    title: 'OnceBalance là gì? Nền tảng API giúp ứng dụng Web3 tương tác với nhiều blockchain',
+    slug: 'oncebalance-la-gi-nen-tang-api-giup-ung-dung-web3',
+    featuredImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=80&h=60&fit=crop'
+  }
+];
+
+// Mock data cho "Tác giả nổi bật"
+const mockFeaturedAuthors = [
+  {
+    name: 'Song Song',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face'
+  },
+  {
+    name: 'Jane',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b789?w=40&h=40&fit=crop&crop=face'
+  },
+  {
+    name: 'Bài viết cộng đồng',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face'
+  },
+  {
+    name: 'Rachel',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face'
+  },
+  {
+    name: 'Kudō',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face'
+  }
+];
 
 // Mock data cho các bài viết liên quan
 const mockRelatedArticles: Article[] = [
@@ -316,168 +410,268 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
 
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            <article className="bg-white rounded-lg shadow-lg overflow-hidden">
-              {/* Article Header */}
-              <header className="p-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <span 
-                    className="px-3 py-1 rounded-full text-sm font-medium text-white"
-                    style={{ backgroundColor: article.category.color || '#3B82F6' }}
-                  >
-                    {article.category.name}
-                  </span>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    <time dateTime={article.publishedAt}>
-                      {format(new Date(article.publishedAt), 'dd/MM/yyyy HH:mm', { locale: vi })}
-                    </time>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-3">
+              <article className="bg-white rounded-lg shadow-lg overflow-hidden">
+                {/* Article Header */}
+                <header className="p-8">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <span 
+                      className="px-3 py-1 rounded-full text-sm font-medium text-white"
+                      style={{ backgroundColor: article.category.color || '#3B82F6' }}
+                    >
+                      {article.category.name}
+                    </span>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      <time dateTime={article.publishedAt}>
+                        {format(new Date(article.publishedAt), 'dd/MM/yyyy HH:mm', { locale: vi })}
+                      </time>
+                    </div>
                   </div>
-                </div>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                  {article.title}
-                </h1>
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                    {article.title}
+                  </h1>
 
-                <p className="text-xl text-gray-600 mb-6 leading-relaxed">
-                  {article.excerpt}
-                </p>
+                  <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+                    {article.excerpt}
+                  </p>
 
-                <div className="flex items-center justify-between border-t border-b py-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-2">
-                      {article.author.avatar && (
-                        <Image
-                          src={article.author.avatar}
-                          alt={article.author.name}
-                          width={40}
-                          height={40}
-                          className="rounded-full"
-                        />
-                      )}
-                      <div>
-                        <p className="font-medium text-gray-900">{article.author.name}</p>
-                        <p className="text-sm text-gray-500">Tác giả</p>
+                  <div className="flex items-center justify-between border-t border-b py-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-2">
+                        {article.author.avatar && (
+                          <Image
+                            src={article.author.avatar}
+                            alt={article.author.name}
+                            width={40}
+                            height={40}
+                            className="rounded-full"
+                          />
+                        )}
+                        <div>
+                          <p className="font-medium text-gray-900">{article.author.name}</p>
+                          <p className="text-sm text-gray-500">Tác giả</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center space-x-6 text-gray-500">
-                    <div className="flex items-center space-x-1">
-                      <Eye className="w-4 h-4" />
-                      <span className="text-sm">{article.views}</span>
+                    <div className="flex items-center space-x-6 text-gray-500">
+                      <div className="flex items-center space-x-1">
+                        <Eye className="w-4 h-4" />
+                        <span className="text-sm">{formatViews(article.views)}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Heart className="w-4 h-4" />
+                        <span className="text-sm">{formatLikes(article.likes)}</span>
+                      </div>
+                      <button className="flex items-center space-x-1 hover:text-blue-600">
+                        <Share2 className="w-4 h-4" />
+                        <span className="text-sm">Chia sẻ</span>
+                      </button>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Heart className="w-4 h-4" />
-                      <span className="text-sm">{article.likes}</span>
-                    </div>
-                    <button className="flex items-center space-x-1 hover:text-blue-600">
-                      <Share2 className="w-4 h-4" />
-                      <span className="text-sm">Chia sẻ</span>
-                    </button>
                   </div>
-                </div>
-              </header>
+                </header>
 
-              {/* Featured Image */}
-              <div className="relative h-96 md:h-[500px]">
-                <Image
-                  src={article.featuredImage}
-                  alt={article.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-
-              {/* Article Content */}
-              <div className="p-8">
-                <div className="prose prose-lg max-w-none">
-                  {parse(article.content)}
+                {/* Featured Image */}
+                <div className="relative h-96 md:h-[500px]">
+                  <Image
+                    src={article.featuredImage}
+                    alt={article.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
                 </div>
 
-                {/* Tags */}
-                {article.tags.length > 0 && (
-                  <div className="mt-8 pt-8 border-t">
-                    <div className="flex items-center flex-wrap gap-2">
-                      <Tag className="w-4 h-4 text-gray-500" />
-                      {article.tags.map((tag) => (
-                        <Link
-                          key={tag}
-                          href={`/tag/${encodeURIComponent(tag)}`}
-                          className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200"
-                        >
-                          {tag}
-                        </Link>
-                      ))}
-                    </div>
+                {/* Article Content */}
+                <div className="p-8">
+                  <div className="prose prose-lg max-w-none text-gray-800">
+                    {parse(article.content)}
                   </div>
-                )}
-              </div>
-            </article>
 
-            {/* Author Bio */}
-            {article.author.bio && (
-              <div className="bg-white rounded-lg shadow mt-8 p-6">
-                <h3 className="text-lg font-semibold mb-4">Về tác giả</h3>
-                <div className="flex items-start space-x-4">
-                  {article.author.avatar && (
-                    <Image
-                      src={article.author.avatar}
-                      alt={article.author.name}
-                      width={60}
-                      height={60}
-                      className="rounded-full"
-                    />
+                  {/* Tags */}
+                  {article.tags.length > 0 && (
+                    <div className="mt-8 pt-8 border-t">
+                      <div className="flex items-center flex-wrap gap-2">
+                        <Tag className="w-4 h-4 text-gray-500" />
+                        {article.tags.map((tag) => (
+                          <Link
+                            key={tag}
+                            href={`/tag/${encodeURIComponent(tag)}`}
+                            className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200"
+                          >
+                            {tag}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   )}
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">{article.author.name}</h4>
-                    <p className="text-gray-600">{article.author.bio}</p>
+                </div>
+              </article>
+
+              {/* Author Bio */}
+              {article.author.bio && (
+                <div className="bg-white rounded-lg shadow mt-8 p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">Về tác giả</h3>
+                  <div className="flex items-start space-x-4">
+                    {article.author.avatar && (
+                      <Image
+                        src={article.author.avatar}
+                        alt={article.author.name}
+                        width={60}
+                        height={60}
+                        className="rounded-full"
+                      />
+                    )}
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-2">{article.author.name}</h4>
+                      <p className="text-gray-600">{article.author.bio}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Related Articles */}
-            {relatedArticles.length > 0 && (
-              <section className="mt-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Bài viết liên quan</h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {relatedArticles.map((relatedArticle) => (
-                    <article key={relatedArticle._id} className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow">
-                      <Link href={`/article/${relatedArticle.slug}`}>
-                        <div className="relative h-48">
+              {/* Related Articles */}
+              {relatedArticles.length > 0 && (
+                <section className="mt-12">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Bài viết liên quan</h2>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {relatedArticles.map((relatedArticle) => (
+                      <article key={relatedArticle._id} className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow">
+                        <Link href={`/article/${relatedArticle.slug}`}>
+                          <div className="relative h-48">
+                            <Image
+                              src={relatedArticle.featuredImage}
+                              alt={relatedArticle.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <div className="flex items-center text-sm text-gray-500 mb-2">
+                              <span 
+                                className="px-2 py-1 rounded text-xs text-white mr-2"
+                                style={{ backgroundColor: relatedArticle.category.color || '#3B82F6' }}
+                              >
+                                {relatedArticle.category.name}
+                              </span>
+                              <Clock className="w-4 h-4 mr-1" />
+                              <span>{format(new Date(relatedArticle.publishedAt), 'dd/MM/yyyy', { locale: vi })}</span>
+                            </div>
+                            <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                              {relatedArticle.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm line-clamp-2">
+                              {relatedArticle.excerpt}
+                            </p>
+                          </div>
+                        </Link>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8 space-y-8">
+                {/* Tin xem nhiều */}
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <span className="w-1 h-6 bg-red-500 mr-3"></span>
+                    Tin xem nhiều
+                  </h2>
+                  <div className="space-y-4">
+                    {mockPopularArticles.map((article) => (
+                      <article key={article._id} className="flex space-x-3">
+                        <div className="relative w-16 h-12 flex-shrink-0">
                           <Image
-                            src={relatedArticle.featuredImage}
-                            alt={relatedArticle.title}
+                            src={article.featuredImage}
+                            alt={article.title}
                             fill
-                            className="object-cover"
+                            className="object-cover rounded"
                           />
                         </div>
-                        <div className="p-4">
-                          <div className="flex items-center text-sm text-gray-500 mb-2">
-                            <span 
-                              className="px-2 py-1 rounded text-xs text-white mr-2"
-                              style={{ backgroundColor: relatedArticle.category.color || '#3B82F6' }}
-                            >
-                              {relatedArticle.category.name}
-                            </span>
-                            <Clock className="w-4 h-4 mr-1" />
-                            <span>{format(new Date(relatedArticle.publishedAt), 'dd/MM/yyyy', { locale: vi })}</span>
-                          </div>
-                          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                            {relatedArticle.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm line-clamp-2">
-                            {relatedArticle.excerpt}
-                          </p>
+                        <div className="flex-1 min-w-0">
+                          <Link href={`/article/${article.slug}`}>
+                            <h3 className="text-sm font-medium text-gray-900 hover:text-red-500 line-clamp-2 leading-snug">
+                              {article.title}
+                            </h3>
+                          </Link>
                         </div>
-                      </Link>
-                    </article>
-                  ))}
+                      </article>
+                    ))}
+                  </div>
                 </div>
-              </section>
-            )}
+
+                {/* Thư viện */}
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <span className="w-1 h-6 bg-red-500 mr-3"></span>
+                    Thư viện
+                  </h2>
+                  <div className="space-y-4">
+                    {mockLibraryArticles.map((article) => (
+                      <article key={article._id} className="flex space-x-3">
+                        <div className="relative w-16 h-12 flex-shrink-0">
+                          <Image
+                            src={article.featuredImage}
+                            alt={article.title}
+                            fill
+                            className="object-cover rounded"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <Link href={`/article/${article.slug}`}>
+                            <h3 className="text-sm font-medium text-gray-900 hover:text-red-500 line-clamp-2 leading-snug">
+                              {article.title}
+                            </h3>
+                          </Link>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tác giả nổi bật */}
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-bold text-gray-900 flex items-center">
+                      <span className="w-1 h-6 bg-red-500 mr-3"></span>
+                      Tác giả nổi bật
+                    </h2>
+                    <Link href="/authors" className="text-sm text-red-500 hover:text-red-600">
+                      XEM THÊM
+                    </Link>
+                  </div>
+                  <div className="space-y-3">
+                    {mockFeaturedAuthors.map((author, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <div className="relative w-10 h-10 flex-shrink-0">
+                          <Image
+                            src={author.avatar}
+                            alt={author.name}
+                            fill
+                            className="object-cover rounded-full"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <Link href={`/author/${encodeURIComponent(author.name)}`}>
+                            <p className="text-sm font-medium text-gray-900 hover:text-red-500">
+                              {author.name}
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

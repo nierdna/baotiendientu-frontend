@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Clock, ChevronRight, Eye, ArrowUp, ArrowDown } from "lucide-react";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import { formatViews } from '@/utils/formatNumber';
 
 interface ArticleType {
   _id: string;
@@ -809,7 +810,7 @@ export default async function HomePage() {
                             <span>{article.author?.name}</span>
                             <div className="flex items-center space-x-1">
                               <Eye className="w-3 h-3" />
-                              <span>{article.views || 0}</span>
+                              <span>{formatViews(article.views)}</span>
                             </div>
                           </div>
                         </div>
@@ -894,7 +895,7 @@ export default async function HomePage() {
                           </h3>
                           <div className="flex items-center text-xs text-gray-500">
                             <Eye className="w-3 h-3 mr-1" />
-                            <span>{article.views} lượt xem</span>
+                            <span>{formatViews(article.views)}</span>
                           </div>
                         </Link>
                       </article>

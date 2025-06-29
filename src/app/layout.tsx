@@ -221,11 +221,11 @@ function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center mb-4">
               <Image
-                src="/tap-chi-bitcoin-logo.png"
+                src="/logo-white.png"
                 alt="Tạp Chí Bitcoin"
-                width={160}
-                height={64}
-                className="h-12 w-auto"
+                width={180}
+                height={80}
+                className="h-16 w-auto"
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
