@@ -376,7 +376,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Tạp Chí Bitcoin',
+      name: 'Báo Tiền Điện Tử',
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.SITE_URL || 'http://localhost:3000'}/logo.png`,

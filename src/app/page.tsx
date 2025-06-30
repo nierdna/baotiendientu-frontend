@@ -450,7 +450,7 @@ const mockPerspectiveArticles = [
 ];
 
 export const metadata: Metadata = {
-  title: "Tạp Chí Bitcoin - Tin tức và phân tích về Cryptocurrency",
+  title: "Báo Tiền Điện Tử - Tin tức và phân tích về Cryptocurrency",
   description:
     "Cập nhật tin tức mới nhất về tiền điện tử, Bitcoin, Ethereum, Ripple, Dogecoin, Altcoin, và Blockchain và công nghệ tài chính. Phân tích chuyên sâu từ các chuyên gia hàng đầu.",
   keywords: [
@@ -463,7 +463,7 @@ export const metadata: Metadata = {
     "phân tích thị trường",
   ],
   openGraph: {
-    title: "Tạp Chí Bitcoin - Tin tức Cryptocurrency hàng đầu Việt Nam",
+    title: "Báo Tiền Điện Tử - Tin tức Cryptocurrency hàng đầu Việt Nam",
     description:
       "Nguồn tin tức tiền điện tử uy tín với các bài phân tích chuyên sâu về Bitcoin, Ethereum, Ripple, Dogecoin, Altcoin và thị trường crypto.",
     type: "website",
@@ -471,7 +471,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tạp Chí Bitcoin - Tin tức Cryptocurrency",
+    title: "Báo Tiền Điện Tử - Tin tức Cryptocurrency",
     description: "Cập nhật tin tức mới nhất về tiền điện tử và blockchain.",
   },
 };

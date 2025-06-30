@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, ChevronDown, User, Twitter, Send } from "lucide-react";
+import Script from 'next/script'
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -19,14 +20,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Tạp Chí Bitcoin - Tin tức Cryptocurrency hàng đầu Việt Nam",
-    template: "%s | Tạp Chí Bitcoin"
+    default: "Báo Tiền Điện Tử - Tin tức Cryptocurrency hàng đầu Việt Nam",
+    template: "%s | Báo Tiền Điện Tử"
   },
   description: "Cập nhật tin tức mới nhất về tiền điện tử, Bitcoin, Ethereum, blockchain và công nghệ tài chính. Phân tích chuyên sâu từ các chuyên gia hàng đầu.",
   keywords: ['tiền điện tử', 'cryptocurrency', 'bitcoin', 'ethereum', 'blockchain', 'tin tức crypto', 'phân tích thị trường'],
-  authors: [{ name: 'Tạp Chí Bitcoin' }],
-  creator: 'Tạp Chí Bitcoin',
-  publisher: 'Tạp Chí Bitcoin',
+  authors: [{ name: 'Báo Tiền Điện Tử' }],
+  creator: 'Báo Tiền Điện Tử',
+  publisher: 'Báo Tiền Điện Tử',
   formatDetection: {
     email: false,
     address: false,
@@ -37,16 +38,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Tạp Chí Bitcoin - Tin tức Cryptocurrency hàng đầu Việt Nam',
+    title: 'Báo Tiền Điện Tử - Tin tức Cryptocurrency hàng đầu Việt Nam',
     description: 'Nguồn tin tức tiền điện tử uy tín với các bài phân tích chuyên sâu về Bitcoin, Ethereum và thị trường crypto.',
     url: process.env.SITE_URL || 'http://localhost:3000',
-    siteName: 'Tạp Chí Bitcoin',
+    siteName: 'Báo Tiền Điện Tử',
     locale: 'vi_VN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tạp Chí Bitcoin - Tin tức Cryptocurrency',
+    title: 'Báo Tiền Điện Tử - Tin tức Cryptocurrency',
     description: 'Cập nhật tin tức mới nhất về tiền điện tử và blockchain.',
     creator: '@baotiendientu',
   },
@@ -72,7 +73,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
+    <html lang="vi" className="scroll-smooth">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WZX1L5Y0B6"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-WZX1L5Y0B6');
+          `}
+        </Script>
+      </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-gray-50`}>
         <Header />
         <main>{children}</main>
@@ -111,8 +127,8 @@ function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/tap-chi-bitcoin-logo.png"
-              alt="Tạp Chí Bitcoin"
+              src="/logo.png"
+              alt="Báo Tiền Điện Tử"
               width={180}
               height={80}
               className="h-16 w-auto"
@@ -222,7 +238,7 @@ function Footer() {
             <div className="flex items-center mb-4">
               <Image
                 src="/logo-white.png"
-                alt="Tạp Chí Bitcoin"
+                alt="Báo Tiền Điện Tử"
                 width={180}
                 height={80}
                 className="h-16 w-auto"
@@ -365,7 +381,7 @@ function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} Tạp Chí Bitcoin. Tất cả quyền được bảo
+            © {new Date().getFullYear()} Báo Tiền Điện Tử. Tất cả quyền được bảo
             lưu.
           </p>
         </div>

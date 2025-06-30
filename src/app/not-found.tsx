@@ -4,7 +4,7 @@ import { Home } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '404 - Không tìm thấy trang | Tạp Chí Bitcoin',
+  title: '404 - Không tìm thấy trang | Báo Tiền Điện Tử',
   description: 'Trang bạn đang tìm kiếm không tồn tại. Quay lại trang chủ để khám phá tin tức và phân tích về tiền điện tử mới nhất.',
   robots: 'noindex, nofollow',
 };
@@ -19,13 +19,13 @@ export default function NotFound() {
             <div className="relative w-24 h-24 mx-auto mb-4">
               <Image
                 src="/logo.png"
-                alt="Tạp Chí Bitcoin"
+                alt="Báo Tiền Điện Tử"
                 fill
                 className="object-contain"
                 priority
               />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">Tạp Chí Bitcoin</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Báo Tiền Điện Tử</h1>
           </Link>
         </div>
 
