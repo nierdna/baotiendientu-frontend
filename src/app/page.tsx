@@ -918,60 +918,58 @@ export default async function HomePage() {
       </section>
 
       {/* E-magazine Section */}
-      <section className="bg-red-500 py-12">
+      <section className="py-12 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white">E-magazine</h2>
+            <h2 className="text-3xl font-bold text-red-500 mb-2">E-magazine</h2>
+            <div className="w-10 h-1 bg-red-500 mx-auto" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {mockEMagazineArticles.map((magazine, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {mockEMagazineArticles.map((magazine) => (
               <article
                 key={magazine._id}
-                className={`group cursor-pointer hover:scale-105 ${
-                  magazine.size === "large"
-                    ? "md:col-span-1 lg:col-span-1"
-                    : "md:col-span-1 lg:col-span-1"
-                } ${index === 0 || index === 4 ? "md:row-span-1" : ""}`}
+                className="group"
               >
-                <Link href={`/article/${magazine.slug}`}>
-                  <div
-                    className={`magazine-cover relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 ${
-                      magazine.size === "large" ? "h-80" : "h-80"
-                    }`}
-                  >
-                    {/* Background Image */}
-                    <div className="absolute inset-0">
-                      <Image
-                        src={magazine.featuredImage}
-                        alt={magazine.title}
-                        fill
-                        className="object-cover"
-                      />
+                <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md hover:shadow-lg transition-shadow duration-300">
+                  {/* Header with gradient background and image */}
+                  <div className="relative mx-4 mt-4 h-40 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
+                    <Image
+                      src={magazine.featuredImage}
+                      alt={magazine.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0" />
+                    <div className="absolute top-3 left-3">
+                      <span className="text-xs text-white/90 uppercase tracking-wide font-medium bg-white/20 px-2 py-1 rounded">
+                        {magazine.subtitle}
+                      </span>
                     </div>
-
-                    {/* Magazine Cover Design */}
-                    <div className="relative h-full p-6 flex flex-col justify-between z-10">
-                      {/* Top Section */}
-                      <div>
-                        <div className="magazine-subtitle text-xs text-white/80 uppercase tracking-wide font-medium mb-2 border-b border-white/30 pb-2">
-                          {magazine.subtitle}
-                        </div>
-                      </div>
-
-                      {/* Bottom Section */}
-                      <div>
-                        <h3
-                          className={`magazine-title font-bold ${magazine.textColor} text-lg leading-tight mb-4 group-hover:text-yellow-200 transition-colors`}
-                        >
-                          {magazine.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Corner Elements */}
                   </div>
-                </Link>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased group-hover:text-blue-600 transition-colors">
+                      {magazine.title.length > 50 ? `${magazine.title.substring(0, 50)}...` : magazine.title}
+                    </h5>
+                    <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased line-clamp-3">
+                      {magazine.title.length > 60 ? `${magazine.title.substring(0, 60)}...` : magazine.title}
+                    </p>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="p-6 pt-0">
+                    <Link href={`/article/${magazine.slug}`}>
+                      <button 
+                        type="button" 
+                        className="select-none rounded-lg bg-primary py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
+                      >
+                        Read More
+                      </button>
+                    </Link>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
